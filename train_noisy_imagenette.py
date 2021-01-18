@@ -11,8 +11,6 @@ from fastcore.script import *
 
 torch.backends.cudnn.benchmark = True
 fastprogress.MAX_COLS = 80
-def pr(s):
-    if rank_distrib()==0: print(s)
 
 def get_dls(size, woof, pct_noise, bs, sh=0., workers=None):
     if size<=224: path = URLs.IMAGEWOOF_320 if woof else URLs.IMAGENETTE_320
@@ -55,27 +53,31 @@ def main(
     pool:     Param("Pooling method", str)='AvgPool',
     dump:     Param("Print model; don't train", int)=0,
     runs:     Param("Number of times to repeat training", int)=1,
+    gpu:      Param("Specify GPU", int)=0,
+    repro:    Param("Reproducible run", store_true)=False,
     meta:     Param("Metadata (ignored)", str)=''
 ):
 
-    "Training of Imagenette. Call with `python -m fastai.launch` for distributed training"
+    "Training of Noisy Imagenette. Call with `python -m fastai.launch` for distributed training"
+    
+    if repro: set_seed(42, reproducible=True)
+    torch.cuda.set_device(gpu); print(f'GPU {gpu} is used')
+
     if   opt=='adam'  : opt_func = partial(Adam, mom=mom, sqr_mom=sqrmom, eps=eps)
     elif opt=='rms'   : opt_func = partial(RMSprop, sqr_mom=sqrmom)
     elif opt=='sgd'   : opt_func = partial(SGD, mom=mom)
     elif opt=='ranger': opt_func = partial(ranger, mom=mom, sqr_mom=sqrmom, eps=eps, beta=beta)
 
-    dls = rank0_first(get_dls, size, woof, pct_noise, bs, sh=sh)
-    pr(f'pct_noise: {pct_noise}; epochs: {epochs}; lr: {lr}; size: {size}; sqrmom: {sqrmom}; mom: {mom}; eps: {eps}')
+    dls = get_dls(size, woof, pct_noise, bs, sh)
+    
+    print(f'pct_noise: {pct_noise}; epochs: {epochs}; lr: {lr}; size: {size}; sqrmom: {sqrmom}; mom: {mom}; eps: {eps}')
     m,act_fn,pool = [globals()[o] for o in (arch,act_fn,pool)]
 
     for run in range(runs):
-        pr(f'Run: {run}')
+        print(f'Run: {run}')
         learn = Learner(dls, m(n_out=10, act_cls=act_fn, sa=sa, sym=sym, pool=pool), opt_func=opt_func, \
                 metrics=[accuracy,top_k_accuracy], loss_func=LabelSmoothingCrossEntropy())
         if dump: pr(learn.model); exit()
-        if fp16: learn = learn.to_native_fp16()
+        if fp16: learn = learn.to_fp16()
         cbs = MixUp(mixup) if mixup else []
-        n_gpu = torch.cuda.device_count()
-        # Both context managers work fine for single GPU too
-        ctx = learn.distrib_ctx if num_distrib() and n_gpu else learn.parallel_ctx
-        with ctx(): learn.fit_flat_cos(epochs, lr, wd=1e-2, cbs=cbs)
+        learn.fit_flat_cos(epochs, lr, wd=1e-2, cbs=cbs)
