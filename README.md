@@ -14,8 +14,28 @@ Generally you'll see +/- 1% differences from run to run since it's quite a small
 
 ## Noisy Imagenette Leaderboard
 
-WIP
+| Noise % | Size (px) | Epochs | URL                                                                                                 | Accuracy | # Runs |
+| ------- | --------- | ------ | --------------------------------------------------------------------------------------------------- | -------- | ------ |
+| 1       | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.907771 | 1      |
+| 1       | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.923567 | 1      |
+| 5       | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.895287 | 1      |
+| 5       | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.900382 | 1      |
+| 25      | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.849682 | 1      |
+| 25      | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.781401 | 1      |
+| 50      | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.793631 | 1      |
+| 50      | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.521783 | 1      |
+
 
 ## Noisy Imagewoof Leaderboard
 
-WIP
+
+| Noise % | Size (px) | Epochs | URL                                                                                                 | Accuracy | # Runs |
+| ------- | --------- | ------ | --------------------------------------------------------------------------------------------------- | -------- | ------ |
+| 1       | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.845508 | 1      |
+| 1       | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.857216 | 1      |
+| 5       | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.835073 | 1      |
+| 5       | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.836345 | 1      |
+| 25      | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.758463 | 1      |
+| 25      | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.686180 | 1      |
+| 50      | 128       | 20     | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.601171 | 1      |
+| 50      | 128       | 200    | [baseline](https://github.com/tmabraham/noisy_imagenette/blob/main/baseline/baseline-01-18-2021.md) | 0.430644 | 1      |
